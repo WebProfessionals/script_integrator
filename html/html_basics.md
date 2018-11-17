@@ -1,4 +1,4 @@
-HTML / CSS Basics
+HTML Basics
 =============
 # TODO
 
