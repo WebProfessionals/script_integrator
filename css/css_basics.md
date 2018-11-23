@@ -263,7 +263,6 @@ Mehr zu Positioning auf [MDN](https://developer.mozilla.org/de/docs/Web/CSS/posi
 
 # Layout Techniken
 
-
 Layout Typ | Verwendungszweck
 ---------|----------
  Floats | Nicht mehr verwenden
@@ -281,13 +280,9 @@ Float funktioniert für alle HTML-Elemente, dadurch kann es auch verwendet werde
 
 Mehr zu Floating Layouts findet ihr bei [CSS Tricks](https://css-tricks.com/almanac/properties/f/float/)
 
-#### Holy Grail Layout
-
-// TBD
-
 #### Float Probleme
 
-##### Float aufheben
+##### Float trifft auf alle nachfolgenden Elemente zu
 <img src="assets/float_problem.png">
 Sobald ein Elemente gefloatet wurde, umfliessen sämtliche nachfolgenden Elemente, dass gefloatete Element.
 
@@ -295,7 +290,11 @@ Sobald ein Elemente gefloatet wurde, umfliessen sämtliche nachfolgenden Element
         float: left;
     }
 
+Um dies zu stoppen, muss man die CSS Eigenschaft `clear` verwenden.
+
 ##### CSS Clear property
+
+Mit `clear` könnt ihr den vorhergehenden `float` wieder unterbrechen. Mögliche Werte für Clear sind `left`, `right` und `both`.
 
 <img src="assets/clear.png">
 
@@ -303,19 +302,18 @@ Sobald ein Elemente gefloatet wurde, umfliessen sämtliche nachfolgenden Element
         flaot: left;
     }
     .rot {
-        clear:left;
+        clear: left;
     }
 
-Um dies zu unterbrechen, könnt ihr die `clear` Eigenschaft verwenden. Für Clear gibt es die Werte `left`, `right` und `both`.
-
+Durch die Eigenschaft `clear` wird der Float der Klasse `.blau` wieder Unterbrochen. Alle Elemente nach `.rot`, auch `.rot` selbst, umfliessen die gefloateten Elemente nicht mehr. Sollen die Elemente nach `.rot`, wieder gefloatet werden, so kann auf `.rot` auch wieder die `float`-Eigenschaft gesetzt werden.
 
 ##### Float Elemente im Parent Element
 <img src="assets/clear_fix_problem.png">
-Befinden sich in einem Container Element ausschliesslich gefloatete Elemente, so passt sich die höhe des Containers nicht an die hohe der Elemente innerhalb an.
+Befinden sich in einem Container Element ausschliesslich gefloatete Elemente, so passt sich die Höhe des Containers nicht an die Höhe der Kind-Elemente an.
 
-Damit dies nicht geschieht, muss sich ein Element mit der Property `clear` nach den gefloateten Elementen eingefügt werden.
+Damit sich der Container anpassen, muss ein Element mit der Property `clear` nach den gefloateten Elementen eingefügt werden.
 
-Dieses Vorgehen nennt man auch clearfix.
+Dieses Vorgehen nennt man auch "clearfix".
 
 ###### Clearfix
 <img src="assets/clear_fix.png">
@@ -378,9 +376,52 @@ Mehr zur Display Property findest du auf [CSS Tricks](https://css-tricks.com/alm
 
 ## CSS Overflow Property
 
+Mit der CSS Eigenschaft `overflow` legt ihr fest, ob Inhalte aus einem Element hinrausragen dürfen und Scrollbalken angezeigt werden sollen.
+
+    overflow: visible;
+    overflow: hidden;
+    overflow: scroll;
+    overflow: auto;
+
+Overflow Eigenschaft | Standartmässig aktiv | Funktionalität
+---------|----------|---------
+ visible | Ja | Element ist sichtbar. Überhängende Elemente sind sichtbar und ragen aus dem Element hinaus.
+ hidden | Nein | Überhängende Elemente sind nicht sichtbar und werden abgeschnitten.
+ scroll | Nein | Überhängende Elemente sind nicht immer sichtbar, sondern es wird eine Scrollbar angezeigt, damit gescrollt werden kann.
+ auto | Nein | Eine Scrollbar wird angezeigt, sofern nötig.
+
+ Mehr zur Overflow Property findest du auf [CSS Tricks](https://css-tricks.com/almanac/properties/o/overflow/)
 
 
-## Flexbox
+## Webfonts
 
-## CSS Grid Layout
+Seit CSS3 ist es möglich, eigene Schriften in Webseiten einzubinden.
 
+Dies geschieht mit der `@font-face` Eigenschaft.
+
+    @font-face {
+    font-family: "Bitstream Vera Serif Bold";
+    src: url("http://developer.mozilla.org/@api/deki/files/2934/=VeraSeBd.ttf");
+    }
+
+    h1 {
+    font-family: "Bitstream Vera Serif Bold", serif;
+    }
+
+Je nach Browser werden unterschiedliche Schrift-Formate unterstützt. Dazu konsultiert ihr am besten die Hilfestellung von [CSS Tricks](https://css-tricks.com/snippets/css/using-font-face/).
+
+ Um eure Schriftart in die gängigen Formate zu konvertieren, könnt ihr [Transfonter](https://transfonter.org/) verwenden.
+
+### Webfonts Lizenzierung
+
+**Wichtig**: Ihr dürft nicht einfach irgendwelche Schriften aus dem Internet auf eurer Webseite verwenden. Ihr müsst sicherstellen, dass die Schriften korrekt Lizenziert sind.
+
+Alternativ könnt ihr Googles kostenlose [Google Fonts](https://fonts.google.com/) verwenden. Sie sind frei verwendbar und müssen nicht extra auf euren Server hochgeladen werden, sondern können direkt von Google verwendet werden.
+
+Diese bindet ihr folgendermassen ein:
+
+    @import url(//fonts.googleapis.com/css?family=Open+Sans);
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+    }
