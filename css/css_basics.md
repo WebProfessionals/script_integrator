@@ -257,3 +257,130 @@ Mehr zu Positioning auf [MDN](https://developer.mozilla.org/de/docs/Web/CSS/posi
 
 
 ## Einheiten
+
+
+## CSS Resets
+
+# Layout Techniken
+
+
+Layout Typ | Verwendungszweck
+---------|----------
+ Floats | Nicht mehr verwenden
+ Flexbox | 1 dimensionale Layouts
+ CSS Grid | 2 dimensionale Layouts
+
+## Float
+<img src="assets/float.png">
+Die `float` Eigenschaft bestimmt, ob ein Element aus dem Textfluss herausgelöst werden soll und nachfolgende Inhalte auf der linken oder rechten Seite des gefloateten Elements platziert werden sollen.
+
+### Float Layouts
+<img src="assets/float_layout.png">
+
+Float funktioniert für alle HTML-Elemente, dadurch kann es auch verwendet werden, um HTML Layout Elemente wie `div`, `article` etc zu positionieren.
+
+Mehr zu Floating Layouts findet ihr bei [CSS Tricks](https://css-tricks.com/almanac/properties/f/float/)
+
+#### Holy Grail Layout
+
+// TBD
+
+#### Float Probleme
+
+##### Float aufheben
+<img src="assets/float_problem.png">
+Sobald ein Elemente gefloatet wurde, umfliessen sämtliche nachfolgenden Elemente, dass gefloatete Element.
+
+    .blau {
+        float: left;
+    }
+
+##### CSS Clear property
+
+<img src="assets/clear.png">
+
+    .blau {
+        flaot: left;
+    }
+    .rot {
+        clear:left;
+    }
+
+Um dies zu unterbrechen, könnt ihr die `clear` Eigenschaft verwenden. Für Clear gibt es die Werte `left`, `right` und `both`.
+
+
+##### Float Elemente im Parent Element
+<img src="assets/clear_fix_problem.png">
+Befinden sich in einem Container Element ausschliesslich gefloatete Elemente, so passt sich die höhe des Containers nicht an die hohe der Elemente innerhalb an.
+
+Damit dies nicht geschieht, muss sich ein Element mit der Property `clear` nach den gefloateten Elementen eingefügt werden.
+
+Dieses Vorgehen nennt man auch clearfix.
+
+###### Clearfix
+<img src="assets/clear_fix.png">
+
+Um nicht sinnlos Elemente erzeugen zu müssen, nutzt man das Pseudo-Element `:after`. Damit wird am Ende des Containers ein unsichtbares Element erzeugt, welches den Container zurücksetzt.
+
+**HTML**
+
+    <div class="parent clearfix">
+        <div class="child">Kindelement</div>
+        <div class="child">Kindelement</div>
+        <div class="child">Kindelement</div>
+    </div>
+
+Beim äusseren DIV wurde die Klasse `.clearfix` hinzugefügt, damit der Container sich an die Grösse seiner Kind-Elemente anpasst.
+
+
+**CSS**
+
+    .clearfix:after {
+        content:"";
+        display: table;
+        clear: both;
+    }
+
+    .parent {
+        background-color: red;
+        padding: 5px;
+    }
+
+    .child {
+        float: left;
+        background-color: green;
+        padding: 10px;
+        margin-right: 10px;
+    }
+
+## CSS Display Property
+
+Mit der Eigenschaft `display` legst du den Typ einer Rendering-Box eiens Elementes fest. Mögliche Werte sind:
+
+    display: block;
+    display: inline;
+    display: flex;
+    display: inline-block;
+    display: grid;
+    display: none;
+
+
+Display Eigenschaft | Standartmässig aktiv | Funktionalität
+---------|----------|---------
+ block | Standart Wert für ELemente wie `<ul>`, `<div>`, `<p>`, `<h1>`, etc. Meistens bei Container-Elementen | Block-Elemente sitzen nicht innerhalb des Textes sondern brechen aus ihm aus und besitzen die Grössen-Eigenschaft `width`.
+ inline | Standart Wert für Text Elemente wie z.B. `<b>`, `<span>`, etc | Werden innerhalb des Textflusses dargestellt. Haben keine Grösse.
+ flex | Nein | Aktiviert das `flex` Layout auf dem Element.
+ inline-block | Nein | Hat die Eigenschaften eines Block Elementes, bricht den Text aber nicht um und hat eine Grösse.
+ grid | Nein | Aktiviert das `grid` Layout auf dem Element.
+ none | Nein | Blendet das Element komplett aus. Das Element benötigt dadurch kein Platz mehr innerhalb des Dokumentes.
+
+Mehr zur Display Property findest du auf [CSS Tricks](https://css-tricks.com/almanac/properties/d/display/).
+
+## CSS Overflow Property
+
+
+
+## Flexbox
+
+## CSS Grid Layout
+
