@@ -99,20 +99,79 @@ flex-start | Die Elemente werden alle direkt nebeneinander positioniert. Das ers
 flex-end | Die Elemente werden alle direkt nebeneinander positioniert. Das erste Element beginnt rechts, bzw unten an der Hauptachse. Falls die `flex-direction:` umgedreht wurde, beginnt es entweder links oder oben.
 space-around | Macht links und rechts von jedem element den gleichen Abstand. Da dies links und rechts passiert, gibt es zwischen den Elementen doppelt soviel Abstand wie neben den Elementen am Rand.
 space-between | Macht zwischen allen Elementen, die sich nicht am Rand befinden, einen gleichmässigen Abstand. Die Elemente am Rand haben keinen Abstand zum Rand.
+space-evenly | Macht zwischen allen Elementen einen gleichmässigen Abstand.
 center | Zentriert alle Elemente in der Hauptachse.
 
 
 ## flex-wrap
 
+    flex-wrap: nowrap | wrap | wrap-reverse
 
+
+Standardmässig versucht der Browser, alle Flex Items auf einer Zeile darzustellen.
+
+Um den Umbruch von Elementen zu erlauben, musst du die `flex-wrap` property setzen. Standardmässig ist die Eingenschaft auf `nowrap`gesetzt.
+### Nicht umbrechen (Nowrap)
+<img src="assets/flexbox/nowrap.png">
+
+    .container {
+      flex-wrap: nowrap;
+    }
+
+### Umbrechen (Wrap)
+
+<img src="assets/flexbox/wrap.png">
+
+    .container {
+      flex-wrap: wrap;
+    }
+
+### Von unten mmbrechen (Wrap reverse)
+
+<img src="assets/flexbox/wrap-reverse.png">
+
+    .container {
+      flex-wrap: wrap-reverse;
+    }
 
 ## flex-flow
 
+Ist eine Abkürzung um `flex-direction` und `flex-wrap` auf einmal zu setzten.
+
+### Aufbau
+Als erstes Argument gebt ihr die `flex-direction` an und als zweites Argument die `flex-wrap`-Eigenschaft.
+
+    flex-flow: <flex-direction> || <flex-wrap>
+
+### Beispiele
+
+    flex-flow: row-reverse wrap
+    flex-flow: row nowrap
+    flex-flow: column-reverse wrap-reverse
+
 
 ## align-items
+
+Definiert, wie die Elemente pro Zeile in der Querachse positioniert werden.
+
 <img src="assets/flexbox/align-items.gif" style="max-width: 600px;">
 
 ## align-content
+
+<img src="assets/flexbox/align-content.svg" style="max-width: 400px">
+
+Mit `align-content` definierst du, wie die Items in der Querarchse positioniert werden.
+
+**Wichtig**: Diese Eigenschaft hat nur einen Effekt, wenn es mehr als eine Zeile von Items hat.
+
+Wert | Beschreibung
+-------- | --------
+flex-start | Alle Items werden am beginn der Querachse positioniert und sind so nahe wie möglich beieinander.
+flex-end | Alle Items werden Ende der Querarchse positioniert und sind so nahe wie möglich beieinander.
+center | Die Elemente werden in der Mitte der Querachse positioniert und sind so nahe wie möglich beieinander.
+space-between | lines evenly distributed; the first line is at the start of the container while the last one is at the end
+space-around | lines evenly distributed with equal space around each line
+stretch (default) | lines stretch to take up the remaining space
 
 # Item Eigenschaften
 
@@ -121,6 +180,8 @@ center | Zentriert alle Elemente in der Hauptachse.
 ## flex-basis
 
 ## flex-grow
+
+
 
 ## flex-shrink
 
