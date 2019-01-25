@@ -1043,3 +1043,26 @@ Der Standardwert im Parameter gesetzt, sofern dafür nicht beim Aufruf explizit 
         echo "Der CH-Preis ist: $preis (ohne Mwst) und $preisMitMwst (inkl. Mwst)<br>";
         echo "Der DE-Preis ist: $preis (ohne Mwst) und $preisMitMwstDe (inkl. Mwst)<br>";
 
+## Return Early
+
+Sobald `return` aufgerufen wird, bricht die weitere Verarbeitung des Programm-Codes innerhalb der Funktion ab und der Wert wird sofort zurückgegeben.
+
+Dieses Verhalten kann man sich zunutze machen.
+Im untenstehenden Beispiel prüfen wir den Parameter, welcher der Funktion mitgegeben wird. Entspricht dieser nicht unseren Vorstellungen, brechen wir die weitere Verarbeitung der Funktion ab und returnen.
+
+Der Wert für `return` kann dabei auch weggelassen werden.
+
+    <?php
+        function whatEver($wert) {
+            if ($wert != 'floats your boat') {
+                return;
+            }
+
+            echo 'hierher kommt das programm nur, wenn "$wert = floats your boat" ist';
+        }
+
+        echo whatEver('');
+        // gibt nichts aus
+        
+        echo whatEver('floats your boat'); 
+        // gibt hierher kommt das programm nur, wenn "$wert = floats your boat" ist
