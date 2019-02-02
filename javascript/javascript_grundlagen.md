@@ -451,9 +451,12 @@ Beispiel:
 ### Attribute manipulieren
 Hast du ein Element erst einmal selektiert, kannst du ALLES möglich damit anstellen. Jedes Attribut, dass du im HTML-Markup schreiben kannst, könntest du auch per DOM Manipulation setzen.
 
-    element.innerHTML              Schreibt Text oder HTML in ein Element
-    element.innerText              Schreibt Text in ein Element, HTML wird ausgeschrieben
-    element.style                  Setzt Inline-CSS Styles
+    element.innerHTML              Liest oder setzt Text oder HTML in ein Element
+    element.innerText              Liest oder setzt Text in ein Element, HTML wird nicht interpretiert
+    element.style                  Liest oder setzt Inline-CSS Styles
+    element.attributes             Gibt dir alle Attribute zurück
+    element.className              Liest oder setzt Klassen als String
+    element.id                     Liest oder setzt das ID Attribut
 
 `element` steht beim obigen Beispiel für ein *vorgängig* per DOM Selektor selektiertes Element.
 
@@ -578,7 +581,7 @@ Beispiel:
         zielElement.appendChild(newElement);
     </script>
 
-### CSS-Klasse setzen mit `classList`
+## CSS-Klasse setzen mit `classList`
 Ähnlich wie du Styles auf dein Element setzen konntest, kannst du auch CSS-Klassen hinzufügen oder entfernen. Dafür brauchst du `classList`.
 `classList` bietet dir unter anderem Funktionen wie `add()` und `remove()` an.
 
@@ -606,9 +609,46 @@ Im Umkehrschluss kannst du Klassen auch wieder entfernen:
     Ausgabe:
     <div class="box">box box box</div>
 
-**Wichtig: Bei `add()` und `remove()` musst du keinen Punkt vor dem Klassennamen schrieben, da durch den Kontext (Verwendung von `classList`) bereits klar ist, dass es sich beim angegebenen String um eine CSS-Klasse handelt.***
+**Wichtig: Bei `add()` und `remove()` musst du keinen Punkt vor dem Klassennamen schrieben, da durch den Kontext (Verwendung von `classList`) bereits klar ist, dass es sich beim angegebenen String um eine CSS-Klasse handelt.**
+
+Zusätzlich bietet `classList` auch noch zwei weitere Funktionen an.
+
+### contains()
+Prüft ob eine Klasse auf dem Element vorhanden ist.
+
+### toggle()
+Fügt eine Klasse hinzu, wenn sie noch nicht auf dem Element vorhanden ist und entfernt die Klasse, wenn sie auf dem Element bereits vorhanden ist.
  
-### `value`-Attribut
+## `setAttribute()` Funktion
+Mittels der `setAttribute(attributName, wert)` Funktion kannst du beliebige Attribute auf dein Element setzen.
+
+    <div class="box">hey hey</div>
+    
+    <script>
+        var box = document.querySelector('.box');
+
+        box.setAttribute('id', 'hello');
+    </script>
+
+    Ausgabe:
+    <div id="hello" class="box">hey hey</div>
+
+## `getAttribute()` Funktion
+Mittels der `setAttribute(attributName)` Funktion kannst du beliebige Attribute von deinem Element lesen.
+
+    <div id="hello" class="box">hey hey</div>
+    
+    <script>
+        var box = document.querySelector('.box');
+
+        var idOfBox = box.getAttribute('id');
+        console.log(idOfBox);
+    </script>
+
+    Ausgabe:
+    <div id="hello" class="box">hey hey</div>
+
+## `value`-Attribut
 Spannend ist das `value`-Attribut mit welchem du den Wert eines Eingabefeldes "auslesen" kannst.
 
 Beispiel:
@@ -624,4 +664,153 @@ Beispiel:
     Ausgabe (in Konsole):
     fixer wert
 
-Wie du siehst, kannst du Attribute nicht nur *neu setzen* sondern auch **lesen**;
+Wie du siehst, kannst du Attribute nicht nur *neu setzen* sondern auch **lesen**.
+
+## Events
+
+Events sind Ereignisse die plötzlich geschehen (meist durch Benutzer-Interaktion).
+- Benutzer klickt auf einen Button
+- Webseite ist fertig geladen
+- Eingabe wurde geändert
+- Maus wurde bewegt
+- ...
+
+Per JavaScript kannst du dich "benachrichtigen" lassen, wenn ein Event auftritt welcher für deine Applikation relevant ist. Wirst du benachrichtigt, kannst du dann eine von dir entwickelte Funktion ausführen lassen.
+
+### click
+Der `click` Event ist wohl der meistbenutzte. Dieser wird immer ausgelöst, wenn irgend ein Element angeklickt wurde.
+
+### mouseover / mouseout
+Diese Events werden ausgelöst, wenn man mit der Mauszeiger über ein Element fährt, bzw. wieder rausfährt.
+
+### focus / blur / change
+Diese Events werden ausgelöst, wenn ein Element fokussiert wird (z.B. in ein Eingabefeld klicken, so dass dort der Cursor blinkt). Klickst du anschliessend ein anderes Element an, so verliert das zuvor fokussierte Element den Fokus, der `blur` Event wird darauf ausgelöst.
+
+Handelt es sich um ein Eingabefeld, und hat sich der Wert gegenüber dem Ursprungszustand (beim `focus`) verändert, so wird zusätzlich der `change` Event ausgelöst.
+
+### keydown / input / keyup
+Diese Events werden ausgelöst, wenn du in einem Eingabefeld tippst. Während du die Taste herunterdrückst wird der `keydown` Event ausgelöst. Wird dabei etwas in das Textfeld eingegeben (z.B. Buchstaben, Zahlen, etc.), so wird der `input` Event ausgelöst. Bewegst du allerdings nur den Cursor mittels den Pfeiltasten hin und her, so wird der `input` Event nicht ausgelöst.
+Lässt du dann die Taste wieder los, so wird als letztes der `keyup` Event ausgelöst.
+
+## Events abonnieren
+Früher hat man Events abonniert, in dem man direkt als HTML-Attribut `onclick="sendOrder()"` geschrieben hat. Dies hat jedoch den Nachteil, dass du damit dein HTML und JavaScript-Code vermischst.
+
+Das korrekte Vorgehen ist, mittels der `addEventListener()` Funktion den gewünschten Event auf deinem Element zu "abonnieren".
+
+### addEventListener()
+Die Funktion `addEventListener()` erwartet üblicherweise mindestens 2 Parameter.
+
+    element.addEventListener('typdesevents', funktionDieAufgerufenWerdenSoll);
+
+Beispiel:
+
+    <button id="btn">Klick mich</button>
+
+    <script>
+        var button = document.querySelector('#btn');
+
+        function openAlert() {
+            alert('Du hast mich angeklickt');
+        }
+
+        button.addEventListener('click', openAlert);
+    </script>
+
+### Das `event` Objekt
+Wie du oben gesehen hast, kannst du beim Aufruf von openAlert keine Parameter mit in die Funktion geben. Trotzdem bekommst du (wenn du willst) als erstes Argument von `openAlert()` ein sogenanntes `event`-Objekt.
+
+Um das `event`-Objekt zu erhalten, schreibst du einfach bei der Definition der Funktion einen Parameternamen in die Klammern. Üblicherweise nimmt man dafür einen sprechenden Namen wie z.B. `event`, `e` oder `ev`.
+
+ In `event` Objekt sind sehr viele Daten zum Event enthalten, welcher gerade ausgelöst wurde. So zum Beispiel:
+ - Typ des Events
+ - Element auf welchem der Event passiert ist
+ - Koordinaten des Mauszeigers
+ - Zeit des Events
+ - Wurde parallel noch Ctrl, Shift oder Alt-Taste gedrückt
+ - Buchstaben welcher gedrückt wurde
+ - ...
+
+Je nach Event-Typ unterscheiden sich die mitgelieferten Informationen.
+
+Insbesondere die `target`-Eigenschaft (Element auf welchem der Event passiert ist) ist interessant, da du dann an diesem Element mittels DOM Manipulation Veränderungen durchführen kannst. Die Funktion welche du beim Event aufrufst bleibt weiterhin universal (auf mehreren Elementen) einsetzbar.
+
+Beispiel:
+
+    <button id="btn">Klick mich</button>
+
+    <script>
+        var button = document.querySelector('#btn');
+
+        function hideButton(event) {
+            event.target.style.display = 'none';
+        }
+
+        button.addEventListener('click', hideButton);
+    </script>
+
+Du kannst allerdings auch Elemente manipulieren, die nicht direkt vom Event betroffen sind.
+
+Beispiel:
+
+    <button id="btn">Klick mich</button>
+    <div id="box">sadfasfasfas asfasd fsadfas fdasdfa asfddasdfasf</div>
+
+    <script>
+        var button = document.querySelector('#btn');
+
+        function hideBox(event) {
+            var box = document.querySelector('#box');
+            box.style.display = 'none';
+        }
+
+        button.addEventListener('click', hideBox);
+    </script>
+
+### Anonyme Funktionen als Event-Handler
+Willst du deine Funktion nur für einen spezifischen Event brauchen, kannst du auch eine Anonyme Funktion als Handler von deinem Event aufrufen. Eine anonyme Funktion muss keinen Namen haben und muss nicht vorgängig definiert werden.
+
+    <script>
+        var button = document.querySelector('#btn');
+
+        button.addEventListener('click', function(event) {
+            event.target.style.display = 'none';
+        });
+    </script>
+
+## Elemente per JavaScript entfernen
+Als Gegenstück zur `appendChild()` Funktion gibt es auch die `removeChild()` Funktion, um ein Kind wieder zu entfernen. Wichtig ist allerdings, dass diese Funktion auf dem Elternelement des zu entfernendene Kindes aufgerufen wird.
+
+Wie bekommst du nun das Eltern-Element eines Elements?
+
+Jedes Element, welches du mitteles DOM-Selektor auswählst, hat eine Eigenschaft welche `parentNode` heisst. Darin enthalten ist das Eltern-Element.
+
+Beispiel (Element direkt innerhalb von Body):
+    
+    <button id="btn">Klick mich und ich verschwinde für immer</button>
+
+    <script>
+        var button = document.querySelector('#btn');
+
+        function removeButton(event) {
+            document.body.removeChild(event.target)
+        }
+
+        button.addEventListener('click', removeButton);
+    </script>
+
+Beispiel (Element irgendwo verschachtelt):
+    
+    <div class="test">
+        <button id="btn">Klick mich und ich verschwinde für immer</button>
+    </div>
+
+    <script>
+        var button = document.querySelector('#btn');
+
+        function removeButton(event) {
+            var clickedElement = event.target;
+            clickedElement.parentNode.removeChild(clickedElement)
+        }
+
+        button.addEventListener('click', removeButton);
+    </script>
