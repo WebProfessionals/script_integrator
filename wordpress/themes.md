@@ -216,18 +216,36 @@ Falls ihr für Seiten keine Sidebar möchtet, könnt ihr sie in `page.php` wegla
 
 <img src="assets/hierarchy.png">
 
-Im obigen Bild ist die Seitenhierarchy innerhalb von Wordpress ersichtlich. Wenn ihr für einzelne Ansichten in eurem Theme spezielle Designs verwenden möchtet, so könnt ihr basierend auf der Hierarchie einzelne Seiten erstellen.
+Im obigen Bild ist die Seitenhierarchy innerhalb von Wordpress ersichtlich. Wenn ihr für einzelne Ansichten in eurem Theme spezielle Designs verwenden möchtet, so könnt ihr basierend auf der Hierarchie einzelne Seiten erstellen. Die Hierarchie muss rechts von links gelesen werden. Desto weiter links die Datei auf der Hierarchie ist, desto höher ist ihre Priorität.
+
+## Beispiel:
+
+Wenn `page.php` existiert, hat es höhere Priorität bei der Ansicht einer Seite als `index.php`. Wenn Sie nicht besteht, wird `index.php` verwendet. `single.php` hat z.B. höhere Priorität als `singular.php`, welche wiederum höhere Priorität hat als `index.php`.
 
 Dateiname | Beschreibung
 -----------|----------------
 single.php | Detailansicht eines einzelnen Blogbeitrags.
-page.php | Detailansicht einer Seite
+page.php | Ansicht einer Seite
 singular.php | Gemeinsames Template für Einzelansichten von Blogbeiträgen und Seiten.
 front-page.php | Template für die Startseite
 comment.php | Kommentarbereich
 404.php	 | "Seite nicht gefunden" Seite
 
 Innerhalb der Datei könnt ihr wie gehabt den Loop verwenden, um an die Daten des Eintrages zu kommen.
+
+### Einzelne spezifische Seiten
+Wenn ihr für eine einzelne Seite ein eigenes Design machen möchtet, könnt ihr eine Datei `page-$slug.php` erstellen. Den Wert `$slug` müsst ihr selbst wählen also z.B. `page-spezial.php` oder `page-einspaltig.php`.
+
+Innerhalb dieses Templates, also im `page-spezial.php` müsst ihr zuoberst noch folgenden Codeblock anbringen:
+
+    <?php
+    /**
+    * Template Name: Folgeseite
+    * Description: Vorlage für die Folgeseiten
+    */
+    ?>
+
+Im Erfasssungsscreen eurer Seiten, in der Sidebar, könnt ihr dann unter Seitenattribute unter `Seitentemplate` das Spezialtemplate auswählen. Der dort aufgeführte Name entspricht den im `page-spezial.php` angegebenen Template Namen.
 
 # Dynamic Sidebar
 
@@ -375,13 +393,65 @@ Innerhalb des Loops könnt ihr dann das jeweilige Bild des Posts mit `the_post_t
 
 Der Text `post-teaser` muss mit dem Namen aus `add_image_size` übereinstimmen. Dadurch weiss Wordpress, welches der Bilder des Posts ihr ausgeben möchtet.
 
-
-
-
 # Partials
 
 
 
 # CSS Registrieren
+Innerhalb eurer `functions.php` könnt ihr eure CSS Dateien registrieren.
 
-Innerhalb eurere `functions.php`
+    function add_styles() {
+      wp_enqueue_style('my_stylesheet', get_template_directory_uri() . '/xyz.css);
+    }
+    add_action( 'wp_enqueue_scripts', 'add_styles' );
+
+
+Der Code:
+
+    wp_enqueue_style('my_stylesheet', get_template_directory_uri() . '/xyz.css);
+
+Registriert ein Stylesheet innerhalb von Wordpress mit dem Namen `my_stylesheet`. Der Name muss eindeutig sein und darf nicht 2x verwendet werden. Mit `get_template_directory_uri()` wird die URL bis zu eurem Theme Verzeichniss ausgegeben. Dahinter könnt ihr den Dateinamen eures Stylesheets (hier `xyz.css`) angeben.
+
+Der Code:
+
+  add_action( 'wp_enqueue_scripts', 'add_styles' );
+
+Erzeugt in Wordpress einen Hook mit eurer Funktion `add_styles`, welcher dann zum Zeitpunkt `wp_enqueue_scripts` hinzugefügt wird.
+
+Euer CSS im `<head>` Tag könnt ihr danach entfernen. Es wird jetzt automatisch ausgegeben, sobald `wp_head()` aufgerufen wird. Für mehrere Styles könnt ihr einfach mehrer
+
+# JS Registrieren
+Innerhalb eurer `functions.php` könnt ihr eure JS Dateien registrieren.
+
+    function add_scripts() {
+        wp_enqueue_script('my_script', get_template_directory_uri() . '/script.js);
+    }
+    add_action( 'wp_enqueue_scripts', 'add_scripts' );
+
+Der Code:
+
+    wp_enqueue_script('my_script', get_template_directory_uri() . '/script.js);
+
+Registriert ein Javascript File innerhalb von Wordpress mit dem Namen `my_script`. Der Name muss eindeutig sein und darf nicht 2x verwendet werden. Mit `get_template_directory_uri()` wird die URL bis zu eurem Theme Verzeichniss ausgegeben. Dahinter könnt ihr den Dateinamen eures Javascript Files (hier `script.js`) angeben.
+
+Der Code:
+
+  add_action( 'wp_enqueue_scripts', 'add_scripts' );
+
+Erzeugt in Wordpress einen Hook mit eurer Funktion `add_scripts`, welcher dann zum Zeitpunkt `wp_enqueue_scripts` ausgeführt wird.
+
+# Child Themes
+
+Mit Child Themes könnt ihr fremde Themes überschreiben. Dies hat den Vorteil, dass ihr gekaufte Themes anpassen könnt, aber bei einem Update des Themes, nicht alle eure Anpassungen verliert bzw. nicht immer nachtragen müsst. Dies ist optimal für kleinere Anpassungen. Ihr könnt jede Datei des Themes einzeln überschreiben.
+
+## Wie einrichten
+* Leeren Ordner für eigenes Theme erstellen
+* Name des Parent Theme angeben in style.css
+* Dateien, die anzupassen sind, einzeln rüber kopieren
+  * z.B. footer.php kopieren, wenn ihr einen anderen Footer möchtet
+
+## Style.css des Child-Themes
+
+    /*
+    Template: name-des-parent-themes
+    */
