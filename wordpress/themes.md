@@ -212,9 +212,22 @@ Um eure Sidebar jetzt in eurem Design einzubinden musst ihr in `index.php` bzw. 
 
 Falls ihr für Seiten keine Sidebar möchtet, könnt ihr sie in `page.php` weglassen und nur in `index.php` angeben. Dann erscheint die Sidebar nur für Blogbeiträge, aber nicht für Seiten.
 
-# Template Hierarchy
+# Template Hierarchie
 
 <img src="assets/hierarchy.png">
+
+Im obigen Bild ist die Seitenhierarchy innerhalb von Wordpress ersichtlich. Wenn ihr für einzelne Ansichten in eurem Theme spezielle Designs verwenden möchtet, so könnt ihr basierend auf der Hierarchie einzelne Seiten erstellen.
+
+Dateiname | Beschreibung
+-----------|----------------
+single.php | Detailansicht eines einzelnen Blogbeitrags.
+page.php | Detailansicht einer Seite
+singular.php | Gemeinsames Template für Einzelansichten von Blogbeiträgen und Seiten.
+front-page.php | Template für die Startseite
+comment.php | Kommentarbereich
+404.php	 | "Seite nicht gefunden" Seite
+
+Innerhalb der Datei könnt ihr wie gehabt den Loop verwenden, um an die Daten des Eintrages zu kommen.
 
 # Dynamic Sidebar
 
@@ -232,6 +245,143 @@ In eurem Template (in `sidebar.php`) müsst ihr die Sidebar dann noch an der kor
 
     <?php dynamic_sidebar(); ?>
 
-An dieser Stelle wird die dynamische Sidebar dann dargestellt.
+Idealerweise verpackt ihr eure Sidebar noch in ein Div, damit wir sie besser stylen könnt:
+
+    <div class="sidebar">
+      <?php dynamic_sidebar(); ?>
+    </div>
+
+
+An dieser Stelle wird die dynamische Sidebar dann dargestellt. Danach könnt die dynamic Sidebar ganz normal mit CSS Stylen.
+
+Danach erscheint der Menu Eintrag `Widgets` unter dem Eintrag `Design`. Dort könnt ihr euere dynamische Sidebar befüllen.
 
 # Menus implementieren
+
+## Menu konfigurieren
+In der Datei `functions.php` müsst ihr folgende Zeilen hinzufügen um die Menus eures Themes zu konfigurieren:
+
+    // Funktion zur Registrierung der Menus des Themes
+    function register_my_menus() {
+      register_nav_menus(
+        array(
+          'header-menu' => __( 'Header Menu' ), // Hier den Text anpassen
+          'extra-menu' => __( 'Extra Menu' ) // Hier den Text anpassen
+        )
+      );
+    }
+
+    // Hook um die Menus bei der initialisierung von Wordpress zu registrieren
+    add_action( 'init', 'register_my_menus' );
+
+Die Funktion `__('TEXT')` ermöglicht es den Text zu Übersetzen. Wenn ihr keine Übersetzung verwendet, könnt ihr auch direkt den Text, ohne `__()` herum schreiben.
+
+### Lifecycle-Hooks
+
+Die Zeile:
+
+    add_action( 'init', 'register_my_menus' );
+
+Teilt Wordpress mit, dass eure Funktion `register_my_menus` während der initalisierungsphase von Woredpress aufgerufen wird. Dies wird auch Hook genannt. Mit diesen Hooks könnt ihr euch in den Wordpress Prozess einklinken und zu unterschiedlichen Zeitpunkten euren Code ausführen.
+
+Pro Zeile innerhalb des `array()` wird ein Menu registriert. Der Text in der Klammer, z.B. `Header Menu` definiert den Namen des Menus im Administrationsbereich. Die komplette Liste aller Wordpress Hooks findet ihr auf [Codex](https://codex.wordpress.org/Plugin_API/Action_Reference).
+
+## Menu ausgeben
+
+Im Theme könnt ihr dann an der gewünschten Stelle, an der das Menu auftauchen soll, die folgende Codezeile einfügen:
+
+    wp_nav_menu( array( 'theme_location' => 'header-menu' ) );
+
+Idealerweise ergänzt ihr die obe Codezeile in eurem `header.php`, sofern ihr euer Theme in mehrere Teile aufgetielt habt. Was dann wie folgt aussehen sollte:
+
+    <nav>
+      <?php wp_nav_menu( array( 'theme_location' => 'header-menu' ) ); ?>
+    </nav>
+
+Der Text `header-menu` muss mit dem Text in der Menu Konfiguration überreinstimmen. Damit sagt ihr Wordpress, welches der konfigurierten Menus, ihr ausgeben möchtet. Bei unserem Beispiel also `header-menu` oder `extra-menu`.
+
+Danach könnt ihr im Wordpress Backend (Theme > Menüs) das Menu erstellen und mit Einträgen befüllen. Unter `Position im Theme`, wählt ihr dann in welches Menu ihr den Menu-Punkt hinzufügen möchtet.
+
+Die kompletten Konfigurationsmöglichkeiten zu `wp_nav_menu` findet ihr auf [Codex](https://developer.wordpress.org/reference/functions/wp_nav_menu/).
+
+Die komplette Dokumentation zu den Menus findet ihr auf [Codex](https://codex.wordpress.org/Navigation_Menus).
+
+# Beitragsbild aktivieren
+
+Damit Wordpress weiss, dass euer Theme mit Bildern in Beiträgen umgehen kann, müsst ihr dies aktivieren. Pro Beitrag können mehrere Bilder erfasst werden. Ihr definiert in eurem Theme, welche Bild-Typen in welchen grössen Unterstützt werden. Bspw. könnte euer Theme ein Teaser-Bild und ein Thumbnail unterstützen.
+
+## Beitragsbild konfigurieren
+In der Datei `functions.php` eures Themes müsst ihr folgende Zeile ergänzen:
+
+    add_theme_support('post-thumbnails');
+
+Dadurch wird Wordpress mitgeteilt, dass euer Theme Post-Thumbnails, auch Beitragsbilder genannt, unterstützt. Beim erfassen eines Beitrags bzw. einer Seite kann dann auch ein Beitragsbild erfasst werden.
+
+## Beitragsbild ausgeben
+
+    the_post_thumbnail();
+
+Dadurch kann innerhalb des Loops in eurem `page.php` bzw. dem `index.php` das Bild des Beitrages ausgegeben werden:
+
+    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+      <h2><?php the_title(); ?></h2>
+      <div class="entry">
+          <?php the_post_thumbnail(); // Hier wird jetzt euer Bild ausgegeben ?>
+          <?php the_content(); ?>
+      </div>
+    <?php endwhile; endif; ?>
+
+### Standard Bildgrösse konfigurieren
+
+Mit der Funktion `set_post_thumbnail_size` könnt ihr die Standard Bildgrösse des `thumbnails` festlegen.
+
+    set_post_thumbnail_size(180,180,true);
+
+180 ist die maximal grösse, die ihr auf das Standard Thumbnail setzten könnt. Alternativ könnt ihr euren eigenen Bildtyp definieren.
+
+Parameter | Beschreibung
+-----------| ------------
+`$width` z.B. `640` | Der zweite Parameter der Funktion definiert die Breite des Bildes in Pixel.
+`$height` z.B. `480` | Der dritte Parameter der Funktion definiert die Höhe des Bildes in Pixel.
+`$crop` z.B. `true` | Der letzte Parameter definiert ob das Image abgeschnitten werden soll, wenn das erfasste Bild,nicht der vorgegebenen Grösse entspricht. Nebst `true` und `false` gibt es noch weitere Möglichkeiten. Konsultiert dazu [Codex](https://developer.wordpress.org/reference/functions/set_post_thumbnail_size/).
+
+Die komplette Dokumentation von `set_post_thumbnail_size()` findet ihr auf [Codex](https://developer.wordpress.org/reference/functions/set_post_thumbnail_size/).
+
+## Mehrere Bildgrössen konfigurieren
+
+### Neue Bildgrösse konfigurieren
+Innerhalb eurer `functions.php` könnt ihr mit `add_image_size` weitere Bildgrössen für eure Posts definieren.
+
+    add_image_size('post-teaser', 640, 480, true);
+
+Parameter | Beschreibung
+-----------| ------------
+`$name` z.B. `post-teaser` | Der erste Parameter der Funktion definiert den Namen der Bildgrösse.
+`$width` z.B. `640` | Der zweite Parameter der Funktion definiert die Breite des Bildes in Pixel.
+`$height` z.B. `480` | Der dritte Parameter der Funktion definiert die Höhe des Bildes in Pixel.
+`$crop` z.B. `true` | Der letzte Parameter definiert ob das Image abgeschnitten werden soll, wenn das erfasste Bild, nicht der vorgegebenen Grösse entspricht.
+
+Die komplette Dokumentation von `add_image_size()` findet ihr auf [Codex](https://developer.wordpress.org/reference/functions/add_image_size/).
+
+Innerhalb des Loops könnt ihr dann das jeweilige Bild des Posts mit `the_post_thumbnail` ausgeben:
+
+    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+      <h2><?php the_title(); ?></h2>
+      <div class="entry">
+          <?php the_post_thumbnail('post-teaser') // Hier wird jetzt euer Teaser-Bild ausgegeben ?>
+          <?php the_content(); ?>
+      </div>
+    <?php endwhile; endif; ?>
+
+Der Text `post-teaser` muss mit dem Namen aus `add_image_size` übereinstimmen. Dadurch weiss Wordpress, welches der Bilder des Posts ihr ausgeben möchtet.
+
+
+
+
+# Partials
+
+
+
+# CSS Registrieren
+
+Innerhalb eurere `functions.php`
