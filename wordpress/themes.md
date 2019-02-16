@@ -506,3 +506,24 @@ In eurem Theme in `style.css` müsst ihr das Hintergrundbild mit CSS dann stylen
 Damit der Hintergrund dann in eurem Theme auch auftaucht, müsst ihr beim `<body>`-Tag die Klasse `custom-background` hinzufügen. Wordpress fügt dann die CSS Klasse beim Element hinzu, welches die Klasse `custom-background` besitzt.
 
     <body class="custom-background">
+
+## Google Fonts integrieren
+
+### Variante im Head (Suboptimal)
+
+Link zum Google CSS von Google direkt in Head bereich kopieren innerhalb eures `header.php`
+
+    <head>
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    </head>
+
+### Variante mit `functions.php`
+Alternativ könntet ihr es auch in `functions.php` machen:
+
+    function add_styles() {
+      wp_enqueue_style('my_stylesheet', 'https://fonts.googleapis.com/css?family=Open+Sans');
+      wp_enqueue_style('my_stylesheet', get_template_directory_uri() . '/xyz.css);
+    }
+    add_action( 'wp_enqueue_scripts', 'add_styles' );
+
+Die zweite Methode mit `functions.php` ist sauberer, da dort alle CSS Dateien an einem Ort zu Wordpress hinzugefügt werden.
