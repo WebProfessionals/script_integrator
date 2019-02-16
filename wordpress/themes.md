@@ -393,10 +393,6 @@ Innerhalb des Loops könnt ihr dann das jeweilige Bild des Posts mit `the_post_t
 
 Der Text `post-teaser` muss mit dem Namen aus `add_image_size` übereinstimmen. Dadurch weiss Wordpress, welches der Bilder des Posts ihr ausgeben möchtet.
 
-# Partials
-
-
-
 # CSS Registrieren
 Innerhalb eurer `functions.php` könnt ihr eure CSS Dateien registrieren.
 
@@ -414,7 +410,7 @@ Registriert ein Stylesheet innerhalb von Wordpress mit dem Namen `my_stylesheet`
 
 Der Code:
 
-  add_action( 'wp_enqueue_scripts', 'add_styles' );
+    add_action( 'wp_enqueue_scripts', 'add_styles' );
 
 Erzeugt in Wordpress einen Hook mit eurer Funktion `add_styles`, welcher dann zum Zeitpunkt `wp_enqueue_scripts` hinzugefügt wird.
 
@@ -436,7 +432,7 @@ Registriert ein Javascript File innerhalb von Wordpress mit dem Namen `my_script
 
 Der Code:
 
-  add_action( 'wp_enqueue_scripts', 'add_scripts' );
+    add_action( 'wp_enqueue_scripts', 'add_scripts' );
 
 Erzeugt in Wordpress einen Hook mit eurer Funktion `add_scripts`, welcher dann zum Zeitpunkt `wp_enqueue_scripts` ausgeführt wird.
 
@@ -446,12 +442,67 @@ Mit Child Themes könnt ihr fremde Themes überschreiben. Dies hat den Vorteil, 
 
 ## Wie einrichten
 * Leeren Ordner für eigenes Theme erstellen
-* Name des Parent Theme angeben in style.css
+* Name des Parent Theme angeben in `style.css`
 * Dateien, die anzupassen sind, einzeln rüber kopieren
-  * z.B. footer.php kopieren, wenn ihr einen anderen Footer möchtet
+  * z.B. `footer.php` kopieren, wenn ihr einen anderen Footer möchtet
 
 ## Style.css des Child-Themes
 
     /*
     Template: name-des-parent-themes
     */
+
+Hierbei muss `name-des-parent-themes` der Ordnername des Themes sein.
+
+# Weitere Funktionen
+
+## Title Tag aktivieren
+
+    function titleTagSetup() {
+      add_theme_support('title-tag');
+    }
+
+    add_action('after_setup_theme`, 'titleTagSetup');
+
+Danach erscheint der in Wordpress konfigurierte Titel in eurem Theme. Weitere Details zu `Title_Tag` findest du auf [Codex](https://codex.wordpress.org/Title_Tag).
+
+
+## Konfigurierbares Header Bild
+Ihr könnt ermöglichen, dass der CMS Benutzer das Header Bild der Seite selbst konfigurieren kann.
+
+Zuerst müsst ihr Wordpress mitteilen, dass euer Theme ein Headerbild unterstützt. Dazu macht ihr in eurer `functions.php`-Datei folgenden Eintrag:
+
+    function headerSetup() {
+      add_theme_support('custom-header');
+    }
+
+    add_action('after_setup_theme`, 'headerSetup');
+
+In eurem Theme in `header.php` müsst ihr dann die Funktion:
+
+    <header>
+      <div class="home-pic" style="background-image: url(<?php header_image(); ?>")
+    </header>
+
+In eurem Theme in `style.css` müsst ihr das Hintergrundbild mit CSS dann stylen:
+
+    .home-pic {
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 250px;
+      background-size: cover;
+    }
+
+## Konfigurierbarer Seitenhintergrund
+
+    function backgroundSetup() {
+      add_theme_support('custom-background');
+    }
+
+    add_action('after_setup_theme`, 'backgroundSetup');
+
+  Danach taucht unter Themes der Bereich Hintergrund auf. Dort kann der CMS Benutzer dann den Seitehintergrund pflegen.
+
+Damit der Hintergrund dann in eurem Theme auch auftaucht, müsst ihr beim `<body>`-Tag die Klasse `custom-background` hinzufügen. Wordpress fügt dann die CSS Klasse beim Element hinzu, welches die Klasse `custom-background` besitzt.
+
+    <body class="custom-background">
