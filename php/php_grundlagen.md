@@ -1,7 +1,7 @@
 PHP Grundlagen
 ==============
 
-PHP steht für **Hypertext Präprozessor**. 
+PHP steht für **Hypertext Präprozessor**.
 Früher Personal Homepage.
 
 Läuft auch dem Server, nicht auf dem Browser des Benutzers.
@@ -15,17 +15,20 @@ Ist die meist verbereiteste Programmiersprache im Internet.
 PHP macht eure Webseite schlau, ihr könnt Eingaben validieren und auf Aktionen von Benutzer reagieren.
 
 # Tipps
-todo
+* Auf genaue schreibweisen achten
+* Beachtet die Fehlermeldungen von VSCode (mit der Maus drüber fahren)
+* Nachschlagen auf [php.net](http://www.php.net)
+* Weitere Beispiele findet ihr auf [Learn-PHP](https://www.learn-php.org/)
 
-# Wie funktioniert eine HMTL Anfrage
+# Wie funktioniert eine HTML Anfrage
 Hinter jeder Domain steht ein eindeutiger Server, der sich im gleichen Gebäude oder sonst irgendwo auf der Welt befinden kann. Dieser Server erhält die Anfrage und prüft dann ob, ob er darauf reagieren soll. Dann liefert er eine Antwort. Der Server an sich ist recht dumm.
 
-<Bild einfügen>
+<img src="assets/html.png">
 
 Mit PHP ist dieser Ablauf etwas komplizierter. Der Browser stellt die Anfrage an den Server. Ist die Dateiendung PHP, stellt er fest, dass diese noch vom PHP Interpreter ausgeführt werden muss.
 Der PHP Interpreter produziert als Resultat (nach der Verarbeitung des PHP-Files) HTML und gibt dieses dem Webserver zurück. Dieser wiederum liefert das HTML an den Browser zurück.
 
-<Bild einfügen>
+<img src="assets/php.png">
 
 Ab heute funktioniert das Doppelklicken einer PHP Datei zur Ansicht im Browser nicht mehr. Der Browser kann PHP nicht verarbeiten und stellt den Inhalt der Datei einfach als Text dar.
 Die Verarbeitung der PHP Datei funktioniert nur bei Aufrufen über `localhost`.
@@ -37,10 +40,10 @@ Ist ausserdem im Verzeichnis `htdocs` keine index.php oder index.html Datei vorh
 Die Datei muss die Endung `.php` besitzen, dass sie vom Server als solche interpretiert wird. Ausserdem muss am Anfang des ausführenden PHP-Codes das einleitende `<?php`
 
 # Unterschied JavaScript <=> PHP
-** PHP
+## PHP
 Um PHP zu verarbeiten ist immer eine Anfrage an den Server erforderlich, deswegen ist mit PHP keine "Echtzeit" Reaktion auf Benutzereingaben möglich.
 
-** JavaScript
+## JavaScript
 JavaScript ermöglicht es, auch ohne Anfrage an den Server auf Eingaben vom Benutzer zu reagieren oder die Webseite interaktiv zu machen. Dies, weil JavaScript vom Browser ausgeführt wird.
 
 # Hallo Welt (abspeichern als `test.php`)
@@ -64,14 +67,26 @@ Innerhalb einer PHP Datei kann beliebig oft ein PHP Block geöffnet und geschlos
         echo "Hier geht PHP wieder los";
     ?>
 
-
 Wenn am Ende der Datei kein weiteres HTML Markup mehr auftritt, muss das PHP Tag nicht mit `?>` abgeschlossen werden.
 
 # echo
 Der Befehl `echo` wird immer verwendet, wenn man etwas an den Browser ausgeben will.
 
 # Fehlermeldungen
-todo
+PHP Meldet euch Fehler wenn ihr den Syntax falsch schreibt. Im Fehler steht jeweils auch die Zeile auf welcher der Fehler aufgetretten ist. Diese Zeilennummer muss allerdings nicht immer stimmen, da sie nur aussagt, dass PHP den Code ab dieser Zeile nicht mehr verstanden hat, das Problem dazu kann aber auch schon weiter oben aufgetretten sein.
+
+## Fehler anzeigen lassen
+
+Standartmässig zeigt PHP keine Fehlermeldungen an, damit nicht aussversehen sensitive Informationen nach aussen gelangen. Für die lokale Entwicklung ist es aber hilfreich, die Fehler anzeigen zu lassen. Dazu muss in der `php.ini`-Datei, die Einstellung `display_errors` auf `On` gestellt werden. Eine Anleitung dazu findet ihr [hier](https://codingexplained.com/dev-ops/mac/enabling-php-error-reporting-mamp).
+
+## Häufige Fehler
+
+* ; (Semikolon) am Ende vergessen
+* $ bei Variablenname vergessen
+* "" oder ' ' oder ( ) oder { } nicht korrekt abgeschlossen
+* allgemeine Schreibfehler im Syntax (z.B. `eco` statt `echo`)
+* `+` mit `.` verwechselt
+
 
 # Kommentare
 
@@ -82,7 +97,7 @@ Dies macht man wie folgt:
     // Einzeiliger Kommentar mit Doppelslash
 
     /* Mehrzeiliger Kommentar
-       mit Slash Stern / Stern Slash 
+       mit Slash Stern / Stern Slash
        So geht das.
     */
 
@@ -184,15 +199,15 @@ Rechnen kann man zum Beispiel nur mit Variablen vom Typ Integer & Double.
 
 ## Rechnen mit Zahlen und Variablen
 
-$a = 5;
+    $a = 5;
 
-echo 5 + $a;
+    echo 5 + $a;
 
 # Verketten von Variablen (Konkatenieren)
 
 Mittels einem `.` kann man mehrere Strings miteinander verbinden.
 
-    <?php 
+    <?php
     $vorname = "Hugo ";
     $nachname = "Fisch";
 
@@ -251,20 +266,21 @@ Kontrollstrukturen erlauben es euch, Weichen in euren Code einzubauen. Der Code 
     }
 
 ## Vergleichsoperatoren
-
-    <      Wert links ist kleiner als Wert rechts
-    >      Wert links ist grösser als Wert rechts
-    ==     Wert ist gleich Wert rechts
-
-
-    <=     Wert links ist kleiner oder gleich Wert rechts
-    >=     Wert links ist grösser oder gleich Wert rechts
+Operator | Beschreibung
+------- | --------
+`<`   |   Wert links ist kleiner als Wert rechts
+`>`   |   Wert links ist grösser als Wert rechts
+`==`  |   Wert ist gleich Wert rechts (Datentypen werden ignoriert)
+`==`  |   Wert ist identisch zum Wert rechts (Datentypen müssen auch gleich sein)
+`<=`  |   Wert links ist kleiner oder gleich Wert rechts
+`>=`  |   Wert links ist grösser oder gleich Wert rechts
 
 ## Logische Operatoren
 
-    &&     Bedingung 1 *und* Bedingung 2 müssen true sein
-
-    ||     Bedingung 1 *oder* Bedingung 2 müssen true sein
+Operator | Beschreibung
+---------|-------------
+`&&`  |   Bedingung 1 *und* Bedingung 2 müssen true sein
+`||`  |   Bedingung 1 *oder* Bedingung 2 müssen true sein
 
 ### Beispiel
 
@@ -301,14 +317,14 @@ Zusätzlich zum `if` (entweder) Statement gibt es ein `else` (oder) Statement. D
 Gibt einen formatierten String anhand eines vorzugebenden Musters zurück. Dabei wird entweder der angegebene Timestamp oder die gegenwärtige Zeit berücksichtigt, wenn kein Timestamp angegegeben wird. Mit anderen Worten ausgedrückt: der Parameter Timestamp ist optional und falls dieser nicht angegeben wird, wird der Wert der Funktion time() angenommen.
 
 ### Gängige Formate
-
-    d   Tag 2 stellig mit führeneder 0
-    m   Monat 2 stellig mit führender 0
-    Y   Jahr 4 stellig
-
-    H   Stunde im 24h Format
-    i   Minuten
-    s   Sekunden
+Format | Beschreibung
+-------|-------------
+d |  Tag 2 stellig mit führeneder 0
+m |  Monat 2 stellig mit führender 0
+Y |  Jahr 4 stellig
+H |  Stunde im 24h Format
+i |  Minuten
+s |  Sekunden
 
 ### Beispiel
 
@@ -320,7 +336,7 @@ Gibt einen formatierten String anhand eines vorzugebenden Musters zurück. Dabei
 
 ## time()
 
-Gibt die seit Beginn der Unix-Epoche (Januar 1 1970 00:00:00 GMT) bis jetzt vergangenen Sekunden zurück.
+Gibt die seit Beginn der Unix-Epoche (`Januar 1 1970 00:00:00 GMT`) bis jetzt vergangenen Sekunden zurück.
 
 ### Beispiel
 
@@ -339,8 +355,9 @@ Will man den Inhalt einer beliebigen Variable anzeigen lassen (inkl. Arrays), so
     echo getdate(); // gibt einen Fehler aus
 
     var_dump(getdate());
-    
-    Ausgabe:
+
+#### Ausgabe
+
     Array
     (
         [seconds] => 40
@@ -383,7 +400,7 @@ Während bei mehreren `if`-Blöcken jede Bedingung wahr sein kann, ist es bei `e
         echo 'ist kleiner 20<br>';
     }
 
-    Ausgabe:
+#### Ausgabe
     ist fünf
     ist kleiner 10
     ist kleiner 20
@@ -429,7 +446,7 @@ Mit dem case `default` kann man ähnlich dem `else` bei if/else den "anderen" Fa
         break;
     }
 
-    Ausgabe:
+#### Ausgabe
     Es ist Frühling
 
 Beispiel ohne `break;`
@@ -449,7 +466,7 @@ Beispiel ohne `break;`
         break;
     }
 
-    Ausgabe:
+#### Ausgabe
     Es ist FrühlingEs ist Frühling
 
 Dieses Verhalten können wir uns zunutze machen
@@ -464,7 +481,7 @@ Dieses Verhalten können wir uns zunutze machen
         break;
     }
 
-    Ausgabe:
+#### Ausgabe
     Es ist Frühling
 
 Beispiel mit `default`
@@ -482,7 +499,7 @@ Beispiel mit `default`
             echo "keine Jahreszeit";
     }
 
-    Ausgabe:
+#### Ausgabe
     keine Jahreszeit
 
 
@@ -540,13 +557,12 @@ In der Adresszeile des Browsers sieht ein GET-Parameter wie folgt aus:
 
 Im deinem PHP Skript kannst du den Wert des GET-Parameters `name1` verwenden. Dieser Wert befindet sich in einer globalen Variable namens `$_GET`.
 
-    <?
-        $name = $_GET['name1'];
+    $name = $_GET['name1'];
 
-        echo $name;
+    echo $name;
 
-        Ausgabe:
-        wert
+### Ausgabe
+    wert
 
 Bei der Entgegennahme von Benutzereingaben via GET-Parametern solltest du auf jedenfall prüfen, dass die Eingabe den Erwartungen deiner Software entspricht. Sonst kann der Benutzer deine Software mit unerwarteten Eingaben zum Absturz bringen.
 
@@ -555,47 +571,42 @@ Bei der Entgegennahme von Benutzereingaben via GET-Parametern solltest du auf je
 Per POST Parameter kann man dem PHP Skript Daten übergeben. Diese sind nicht in der Adresszeile des Browsers ersichtlich, werden aber trotzdem an den Server übertragen. Dies passiert im Hintergrund (man kann diese aber via Browser Entwicklungstools sichtbar machen).
 
 Das arbeiten mit POST Daten im PHP Skirpt ist identisch wie bei den GET Daten, die Variable heisst allerdings `$_POST`
-    
-    <?
-        $name = $_POST['name1'];
 
-        echo $name;
+    $name = $_POST['name1'];
 
-        Ausgabe:
-        wert
+    echo $name;
+
+### Ausgabe
+    wert
 
 # Schleifen
 Will man eine Zählschleife implementieren, muss man bei der Verwendung einer `while` Schleife jeweils oft das immer gleiche Grundmuster schreiben.
 
-    <?php
-        $zahl = 1;
-        while ($zahl < 100) {
-            // zu wiederholender code
+    $zahl = 1;
+    while ($zahl < 100) {
+        // zu wiederholender code
 
-            $zahl++;
-        }
+        $zahl++;
+    }
 
 ## for
-Eine kürzer Schreibweise für eine Zählschleife bietet uns die `for` Schleife an. Die 
+Eine kürzer Schreibweise für eine Zählschleife bietet uns die `for` Schleife an. Die
 
-    <?php 
-        for (Startzustand; Abbruchkriterium; Anweisung nach jedem Durchgang) {
-            // zu wiederholender code
-        }
+    for (Startzustand; Abbruchkriterium; Anweisung nach jedem Durchgang) {
+        // zu wiederholender code
+    }
 
 Möchte man obenstehende `while` Schlaufe mit einer `for` Schleife umsetzen, würde diese so aussehen:
 
-    <?php
-        for ($zahl = 1; $zahl < 100; $zahl++) {
-            // zu wiederholender code
-        }
+    for ($zahl = 1; $zahl < 100; $zahl++) {
+        // zu wiederholender code
+    }
 
 Dabei kann man selbstverständlich auch abwärts zählen.
 
-    <?php
-        for ($zahl = 100; $zahl > 1; $zahl--) {
-            // zu wiederholender code
-        }
+    for ($zahl = 100; $zahl > 1; $zahl--) {
+        // zu wiederholender code
+    }
 
 # Arrays
 Normale Variablen (Integer, String, ...) können immer nur einen Wert enthalten. Mit Hilfe von Arrays kann eine Variable nun mehrere Werte enthalten (ähnlich einer Liste).
@@ -608,108 +619,99 @@ Dabei wird zwischen den folgenden Array-Arten unterschieden:
 ## Indizierte Arrays
 Will man eine beliebige Anzahl von Werten in einen Array einfüllen, muss man folgende Schreibweise anwenden:
 
-    <?php
-        // Neue Schreibweise
-        $vorname = ['Hans', 'Peter', 'Wolfgang'];
+    // Neue Schreibweise
+    $vorname = ['Hans', 'Peter', 'Wolfgang'];
 
-        // Alte Schreibweise
-        $vorname = array('Hans', 'Peter', 'Wolfgang');
+    // Alte Schreibweise
+    $vorname = array('Hans', 'Peter', 'Wolfgang');
 
-        // Manuelles Befüllen
-        $vorname[0] = 'Hans';
-        $vorname[1] = 'Peter';
-        $vorname[2] = 'Wolfgang';
+    // Manuelles Befüllen
+    $vorname[0] = 'Hans';
+    $vorname[1] = 'Peter';
+    $vorname[2] = 'Wolfgang';
 
 Nun habt ihr die Variable `$vorname` mit 3 Vornamen gefüllt; die Variable `$vorname` ist nun ein indiziertes Array.
 Will man den Inhalt dieser Variable ausgeben, so kann man nicht mehr einfach `echo $vorname;` schreiben, da nicht definiert ist, welcher der Vornamen angezeigt werden soll.
 
 Der Zugriff auf einen einzelnen Namen erfolgt mittels einem Index (oder auch Schlüssel). Diesr Schlüssel ist bei indizierten Arrays nummerisch (also eine Zahl).
 
-    <?php
-        $vorname = ['Hans', 'Peter', 'Wolfgang'];
+    $vorname = ['Hans', 'Peter', 'Wolfgang'];
 
-        echo $vorname[0]; // Hans
-        echo $vorname[1]; // Peter
-        echo $vorname[2]; // Wolfgang
+    echo $vorname[0]; // Hans
+    echo $vorname[1]; // Peter
+    echo $vorname[2]; // Wolfgang
 
 **Wichtig zu wissen ist dabei noch, dass das erste Element immer bei Index 0 eingefügt wird (nicht bei Index 1).**
 
 Es können ausserdem auch leere Arrays erstellt werden. Dafür lässt man die "Liste" einfach leer:
 
-    <?php
-        $cars = []; // erstellt ein leeres Array $cars z.B. für die spätere Verwendung
+    $cars = []; // erstellt ein leeres Array $cars z.B. für die spätere Verwendung
 
-        echo count($cars); // 0
+    echo count($cars); // 0
 
 Abgesehen von Strings kannst du natürlich auch beliebige andere Datentypen in dein Array einfüllen. Es müssen dabei auch nicht alle Einträge vom selben Datentyp sein, Mischen ist möglich.
 
-    <?php
-        // Werte sind Integers
-        $zahlen = [5, 10, 15, 20];
+    // Werte sind Integers
+    $zahlen = [5, 10, 15, 20];
 
-        // Werte sind booleans
-        $wahr = [false, true, true, false, true, false];
+    // Werte sind booleans
+    $wahr = [false, true, true, false, true, false];
 
-        // Werte sind gemischt
-        $gemischt = [5, 'Hanswurst', true];
+    // Werte sind gemischt
+    $gemischt = [5, 'Hanswurst', true];
 
 
 ### count()
 Um zu prüfen, wieviele Elemente sich in einem Array befinden, kannst du die Funktion `count($vorname)` verwenden. Diese gibt dir die Anzahl der Vornamen zurück.
 
-    <?php
-        $vorname = ['Hans', 'Peter', 'Wolfgang'];
+    $vorname = ['Hans', 'Peter', 'Wolfgang'];
 
-        echo count($vorname); // 3
+    echo count($vorname); // 3
 
 Setzt du nun `count()` geschickt ein, so kannst du Code schreiben, welcher jeweils den letzten Namen des Arrays zurückgibt.
 
-    <?php
-        $vorname = ['Hans', 'Peter', 'Wolfgang'];
+    $vorname = ['Hans', 'Peter', 'Wolfgang'];
 
-        $anzahl = count($vorname);
+    $anzahl = count($vorname);
 
-        echo $vorname[$anzahl - 1]; // Wolfgang
+    echo $vorname[$anzahl - 1]; // Wolfgang
 
 Das `- 1` ist nötig, weil `count()` die Anzahl Einträge zurückgibt, der Schlüssel jedoch bei 0 beginnt. Der dritte Eintrag befindet sich bei Index 2.
 
 ### Über Arrays loopen
 Früher hat man mittels einer Zählschleife alle Einträge aus einem Array ausgegeben:
 
-    <?php
-        $vorname = ['Hans', 'Peter', 'Wolfgang'];
+    $vorname = ['Hans', 'Peter', 'Wolfgang'];
 
-        // Alte Version
-        for($i = 0; $i < count($vorname); $i++) {
-            echo $vorname[$i].'<br>';
-        }
+    // Alte Version
+    for($i = 0; $i < count($vorname); $i++) {
+        echo $vorname[$i].'<br>';
+    }
 
-        Ausgabe:
-        Hans
-        Peter
-        Wolfgang
+#### Ausgabe
+    Hans
+    Peter
+    Wolfgang
 
 Wird der Array beim Befüllen um einen weiteren Eintrag ergänzt, so wird dieser von selbst auf der 4. Zeile ausgegeben.
 
 Um jeden Eintrag eines Arrays auszugeben, gibt es noch eine spezielle Art von Loop. Dieser heisst `foreach`.  Die Schreibweise ist dabei wie folgt:
 
-    <?php
-        foreach ($herkunftsArray as $wertImLoop) {
-            // $wertImLoop stellt nun bei jedem Durchgang
-            // jeweils einen Wert aus dem Array zur Verfügung
-        }
+    foreach ($herkunftsArray as $wertImLoop) {
+        // $wertImLoop stellt nun bei jedem Durchgang
+        // jeweils einen Wert aus dem Array zur Verfügung
+    }
 
-    <?php
-        $vornamen = ['Hans', 'Peter', 'Wolfgang'];
+    $vornamen = ['Hans', 'Peter', 'Wolfgang'];
 
-        foreach($vornamen as $vorname) {
-            echo $vorname.'<br>';
-        }
+    foreach($vornamen as $vorname) {
+        echo $vorname.'<br>';
+    }
 
-        Ausgabe:
-        Hans
-        Peter
-        Wolfgang
+#### Ausgabe
+    Hans
+    Peter
+    Wolfgang
 
 Das Verhalten beim Loopen über ein Array kann man zusätzlich mit den Befehlen `break;` und `continue;` steuern.
 
@@ -726,149 +728,136 @@ Zum Befüllen eines assoziativen Arrays muss man folgende Schreibweise anwenden.
 
 **Wichtig ist, dass die Schlüssel einigartig sind. Verwendet man einen Schlüssel ein zweites Mal, so wird der Inhalt aus der ersten Zuweisung überschrieben.**
 
-    <?php
-        $ages = ['Schluessel' => 'Wert', 'Schluessel1' => 'Wert1', ...]:
+    $ages = ['Schluessel' => 'Wert', 'Schluessel1' => 'Wert1', ...]:
 
 Beispiel:
 
-    <?php
-        // Neue Schreibweise
-        $ages = ['Peter' => 10, 'Fritz' => 98, 'Pascal' => 17];
+    // Neue Schreibweise
+    $ages = ['Peter' => 10, 'Fritz' => 98, 'Pascal' => 17];
 
-        // Alte Schreibweise
-        $ages = array ('Peter' => 10, 'Fritz' => 98, 'Pascal' => 17);
+    // Alte Schreibweise
+    $ages = array ('Peter' => 10, 'Fritz' => 98, 'Pascal' => 17);
 
-        // Manuelle Zuweisung
-        $ages['Jonathan'] = 89;
-        $ages['Jakob'] = 104;
+    // Manuelle Zuweisung
+    $ages['Jonathan'] = 89;
+    $ages['Jakob'] = 104;
 
 Will man nun auf einen dieser Werte zugreifen, verwendet man den entsprechenden Namen als Schlüssel.
 
-    <?php
-        $ages = ['Peter' => 10, 'Fritz' => 98, 'Pascal' => 17];
+    $ages = ['Peter' => 10, 'Fritz' => 98, 'Pascal' => 17];
 
-        echo $ages['Fritz']; // 98
-        echo $ages['Peter']; // 10
-        echo $ages['Pascal']; // 17
+    echo $ages['Fritz']; // 98
+    echo $ages['Peter']; // 10
+    echo $ages['Pascal']; // 17
 
 ### Über Arrays loopen bei assoziativen Arrays
 Zusätzlich zum Wert, welchen wir beim indizierten Array bei jedem Durchgang einer Variable zugewiesen haben, können wir auch den Schlüssel (Key), einer Variablen zuweisen.
 
-    <?php
-        foreach ($herkunftsArray as $schluesselImLoop => $wertImLoop) {
-            // $schluesselImLoop stellt nun bei jedem Durchgang
-            // den Schluessel des aktuellen Werts zur Verfügung
-            // 
-            // $wertImLoop stellt nun bei jedem Durgang
-            // jeweils einen Wert aus dem Array zur Verfügung
-        }
+    foreach ($herkunftsArray as $schluesselImLoop => $wertImLoop) {
+        // $schluesselImLoop stellt nun bei jedem Durchgang
+        // den Schluessel des aktuellen Werts zur Verfügung
+        //
+        // $wertImLoop stellt nun bei jedem Durgang
+        // jeweils einen Wert aus dem Array zur Verfügung
+    }
 
 Beispiel:
 
-    <?php
-        $ages = ['Peter' => 10, 'Fritz' => 98, 'Pascal' => 17];
+    $ages = ['Peter' => 10, 'Fritz' => 98, 'Pascal' => 17];
 
-        foreach ($ages as $name => $age) {
-            echo $name . ' ist ' . $age . ' Jahre alt.<br>';
-        }
+    foreach ($ages as $name => $age) {
+        echo $name . ' ist ' . $age . ' Jahre alt.<br>';
+    }
 
 Wichtig ist auch hier die Schreibweise mit dem Pfeil `=>`
 
 ## nützliche Funktionen *var_dump()* und *print_r()*
 Will man den Inhalt einer beliebigen Variable, sei es String, Integer oder Array, inspizieren, so kann man `var_dump()` oder `print_r()` verwenden.
 
-    <?php
-        // Variablen befüllen
-        $name = 'Tim';
-        $personen = ['Heinz', 'Rüdiger','Thomas'];
+    // Variablen befüllen
+    $name = 'Tim';
+    $personen = ['Heinz', 'Rüdiger','Thomas'];
 
-        // Ausgabe vorbereiten
-        echo '<pre>'; // HTML Element, damit die Formatierung erhalten bleibt
-        var_dump($name);
-        var_dump($personen);
-        echo '</pre>';
+    // Ausgabe vorbereiten
+    echo '<pre>'; // HTML Element, damit die Formatierung erhalten bleibt
+    var_dump($name);
+    var_dump($personen);
+    echo '</pre>';
 
-        Ausgabe:
-        string(3) "Tim"
-        
-        array(3) {
-        [0]=>
-        string(5) "Heinz"
-        [1]=>
-        string(8) "Rüdiger"
-        [2]=>
-        string(6) "Thomas"
-        }
+### Ausgabe
+    string(3) "Tim"
+
+    array(3) {
+    [0]=> string(5) "Heinz"
+    [1]=> string(8) "Rüdiger"
+    [2]=> string(6) "Thomas"
+    }
 
 
 ## Mehrdimensionale Arrays
 In ein Array kann man abgesehen von primitiven Datentypen wie Integer, String, Boolean, ... auch komplexe Datentypen wie z.B. ein weiteres Array einfüllen.
 Um ein weiteres Array innerhalb eines Arrays zu erzeugen, schreibt man statt einem simplen Wert einfach ein neues Array mit eckigen Klammern `[]`. Dieses kann leer oder ebenfalls bereits gefüllt sein.
 
-    <?php
-        // Zwei indizierte Arrays ineinander verschachtelt
+    // Zwei indizierte Arrays ineinander verschachtelt
 
-        $mehrDimensionalesArray = [ // Hauptarray
-            ['A1', 'A2'], // Array A
-            ['B1', 'B2'], // Array B
-        ];
+    $mehrDimensionalesArray = [ // Hauptarray
+        ['A1', 'A2'], // Array A
+        ['B1', 'B2'], // Array B
+    ];
 
-        echo $mehrDimensionalesArray[0][0]; // A1
+    echo $mehrDimensionalesArray[0][0]; // A1
 
-        echo $mehrDimensionalesArray[0][1]; // B1
-        echo $mehrDimensionalesArray[1][1]; // B2
+    echo $mehrDimensionalesArray[0][1]; // B1
+    echo $mehrDimensionalesArray[1][1]; // B2
 
 Es können alle möglichene Arten, indizierte und assoziative Arrays, innerhalb eines anderen Arrays verschachtelt werden.
 
-    <?php
-        // Indiziertes Array innerhalb eines assoziativen Arrays
-        
-        $lieblingsFarben = [ // Hauptarray
-            'Walter' => ['blau', 'grün'],
-            'Roman' => ['gelb'],
-            'Nina' => ['braun', 'rosa'],
-        ];
+    // Indiziertes Array innerhalb eines assoziativen Arrays
 
-        echo $lieblingsFarben['Nina'][0]; // braun
-        echo $lieblingsFarben['Walter'][1]; // grün
+    $lieblingsFarben = [ // Hauptarray
+        'Walter' => ['blau', 'grün'],
+        'Roman' => ['gelb'],
+        'Nina' => ['braun', 'rosa'],
+    ];
+
+    echo $lieblingsFarben['Nina'][0]; // braun
+    echo $lieblingsFarben['Walter'][1]; // grün
 
 Will man aus obigem Beispiel alle Daten ausgeben, so kann man wiederum den `foreach()` anwenden.
 
-    <?php
-        $lieblingsFarben = [ // Hauptarray
-            'Walter' => ['blau', 'grün'],
-            'Roman' => ['gelb'],
-            'Nina' => ['braun', 'rosa'],
-        ];
+    $lieblingsFarben = [ // Hauptarray
+        'Walter' => ['blau', 'grün'],
+        'Roman' => ['gelb'],
+        'Nina' => ['braun', 'rosa'],
+    ];
 
-        foreach ($lieblingsFarben as $name => $farben) {
-            echo $name . ' hat ' . count($farben) . ' Lieblingsfarben.<br>';
-        }
+    foreach ($lieblingsFarben as $name => $farben) {
+        echo $name . ' hat ' . count($farben) . ' Lieblingsfarben.<br>';
+    }
 
-        Ausgabe:
-        Walter hat 2 Lieblingsfarben.
-        Roman hat 1 Lieblingsfarben.
-        Nina hat 2 Lieblingsfarben.
+### Ausgabe
+    Walter hat 2 Lieblingsfarben.
+    Roman hat 1 Lieblingsfarben.
+    Nina hat 2 Lieblingsfarben.
 
 Öfter trifft man jedoch den umgekehrten Fall an. Beliebig viele assoziative Arrays befinden sich innerhalb eines indizierten Arrays.
 
-    <?php
-        $cars = [
-            ['marke' => 'Volvo', 'lager' => 10, 'bestellt' => 5],
-            ['marke' => 'BMW', 'lager' => 120, 'bestellt' => 592],
-            ['marke' => 'Landrover', 'lager' => 1, 'bestellt' => 10],
-            ['marke' => 'VW', 'lager' => 254, 'bestellt' => 24],
-        ]
+    $cars = [
+        ['marke' => 'Volvo', 'lager' => 10, 'bestellt' => 5],
+        ['marke' => 'BMW', 'lager' => 120, 'bestellt' => 592],
+        ['marke' => 'Landrover', 'lager' => 1, 'bestellt' => 10],
+        ['marke' => 'VW', 'lager' => 254, 'bestellt' => 24],
+    ]
 
-        foreach ($cars as $index => $car) {
-            echo $i . ' Bestand für Marke ' . $car['marke'] . ', Lager ' . $car['lager'] . ', bestellt ' . $car['bestellt] . '<br>';
-        }
+    foreach ($cars as $index => $car) {
+        echo $i . ' Bestand für Marke ' . $car['marke'] . ', Lager ' . $car['lager'] . ', bestellt ' . $car['bestellt] . '<br>';
+    }
 
-        Ausgabe
-        0 Bestand für Marke Volvo, Lager 10, bestellt 5
-        1 Bestand für Marke BMW, Lager 120, bestellt 592
-        2 Bestand für Marke Landrover, Lager 1, bestellt 10
-        3 Bestand für Marke VW, Lager 254, bestellt 24
+### Ausgabe
+    0 Bestand für Marke Volvo, Lager 10, bestellt 5
+    1 Bestand für Marke BMW, Lager 120, bestellt 592
+    2 Bestand für Marke Landrover, Lager 1, bestellt 10
+    3 Bestand für Marke VW, Lager 254, bestellt 24
 
 **Merke:** Kennst du die Art der Daten innerhalb eines Arrays, und möchtest du diese allenfalls später um zusätzliche Daten-Arten ergänzen (z.B. bei oben stehendem Auto-Beispiel noch den Typ), so lohnt es sich, jeweils ein assoziatives Array zu verwenden.
 
@@ -881,167 +870,157 @@ Eine Funktion *kann* ausserdem etwas zurückgeben (aus der Funktion heraus), dam
 ## Funktions-Definition
 Die Definition einer eigenen Funktion sieht wie folgt aus:
 
-    <?php
-        function nameDerFunktion($parameeter1, $parameter2, ...) {
-            // Code welcher die Funktion ausführt
-            return $returnWert; // Optionaler Returnwert
-        }
+    function nameDerFunktion($parameeter1, $parameter2, ...) {
+        // Code welcher die Funktion ausführt
+        return $returnWert; // Optionaler Returnwert
+    }
 
 Es gibt auch Funktionen die keinen Paramter erwarten und/oder auch nichts zurück geben (kein Returnwert):
 
-    <?php
-        function nameDerFunktion() {
-            echo 'Hallo Welt';
-        }
+    function nameDerFunktion() {
+        echo 'Hallo Welt';
+    }
 
 
 ## Funktionsaufruf
 Eine Funktion ist wie eien Werkzeug, das Werkzeug müsst ihr euch erst "bauen" und danach "verwenden". Dieses Verwenden nennt man *Funktionsaufruf*
 
-    <?php
-        // Funktionsdefinition
-        function nameDerFunktion() {
-            echo 'Hallo Welt';
-        }
-        
-        // bisher wird noch nicht ausgegeben, da niemand die Funktion verwendet.
+    // Funktionsdefinition
+    function nameDerFunktion() {
+        echo 'Hallo Welt';
+    }
 
-        nameDerFunktion(); // diese Zeile ruft die Funktion auf
+    // bisher wird noch nicht ausgegeben, da niemand die Funktion verwendet.
 
-        Ausgabe:
-        Hallo Welt
+    nameDerFunktion(); // diese Zeile ruft die Funktion auf
+
+### Ausgabe
+    Hallo Welt
 
 ## Gültigkeit der Variablen (Scope)
 
-    <?php
-        $test = 1; // diese Variable ist global
+    $test = 1; // diese Variable ist global
 
-        function halloWelt() {
-            $test = 1; // diese Variable ist nur innerhalb der Funktion gültig
-        }
+    function halloWelt() {
+        $test = 1; // diese Variable ist nur innerhalb der Funktion gültig
+    }
 
 Will man mit dem Wert einer Variable ausserhalb der Funktion weiterarbeiten, z.B. um ihn mit `echo` auszugeben, so muss ich diesen Wert aus der Funktion zurück an die "globale Welt" geben.
 
-    <?php
-        $test = 1; // globale Variable, da ausserhalb der Funktion definiert
+    $test = 1; // globale Variable, da ausserhalb der Funktion definiert
 
-        function halloWelt() {
-            $test = 1; // lokale Variable, da innerhalb der Funktion definiert
-            $test = $test * 4;
+    function halloWelt() {
+        $test = 1; // lokale Variable, da innerhalb der Funktion definiert
+        $test = $test * 4;
 
-            return $test;
-        }
-        
-        echo $test;
-        echo '<br>';
-        echo halloWelt();
+        return $test;
+    }
 
-        Ausgabe:
-        1
-        4
+    echo $test;
+    echo '<br>';
+    echo halloWelt();
+
+### Ausgabe
+    1
+    4
 
 Beim obigen Beispiel sieht man auch, dass die Variablen innerhalb und ausserhalb der Funktion sich *nicht* gegenseitig beeinflussen.
 
 ## Einfaches Beispiel einer Funktion mit Parametern und Return
 
-    <?php
-        function meierify($vorname) {
-            return $vorname . ' Meier';
-        }
+    function meierify($vorname) {
+        return $vorname . ' Meier';
+    }
 
-        echo meierify('Andrea');
-        echo '<br>';
-        echo meierify('Hugo');
-        echo '<br>';
-        echo meierify('Pascal');
-        echo '<br>';
+    echo meierify('Hans');
+    echo '<br>';
+    echo meierify('Hugo');
+    echo '<br>';
+    echo meierify('Pascal');
+    echo '<br>';
 
-        Ausgabe:
-        Andrea Meier
-        Hugo Meier
-        Pascal Meier
+## Ausgabe
+    Hans Meier
+    Hugo Meier
+    Pascal Meier
 
 Eine Funktion kann auch mehrere Paramter erwarten, dabei ist der erste Wert, den man beim Funktionsaufruf mitgibt jeweils im 1. Parameter zu finden, der zweite jeweils im 2. Parameter.
 
-    <?php
-        function meierify($vorname, $geschlecht) {
-            if ($geschlecht == 'f') {
-                $anrede = 'Frau';
-            } else {
-                $anrede = 'Herr';
-            }
-
-            return $anrede . ' ' . $vorname . ' Meier';
+    function meierify($vorname, $geschlecht) {
+        if ($geschlecht == 'f') {
+            $anrede = 'Frau';
+        } else {
+            $anrede = 'Herr';
         }
 
-        echo meierify('Andrea', 'f');
-        echo '<br>';
-        echo meierify('Hugo', 'm');
-        echo '<br>';
-        echo meierify('Pascal', 'm');
-        echo '<br>';
+        return $anrede . ' ' . $vorname . ' Meier';
+    }
 
-        Ausgabe:
-        Frau Andrea Meier
-        Herr Hugo Meier
-        Herr Pascal Meier
+    echo meierify('Andrea', 'f');
+    echo '<br>';
+    echo meierify('Hugo', 'm');
+    echo '<br>';
+    echo meierify('Pascal', 'm');
+    echo '<br>';
+
+### Ausgabe
+    Frau Andrea Meier
+    Herr Hugo Meier
+    Herr Pascal Meier
 
 ## Standardwerte für optionale Parameter
 Entwickelt ihr eine eigene Funktion welche 1-2 Parameter erwartet, so müsst ihr für den optionalen Parameter einen Standardwert definieren. Ansonsten gibt es einen Fehler.
 
 Der Standardwert im Parameter gesetzt, sofern dafür nicht beim Aufruf explizit ein Wert in die Funktion gegeben wurde.
 
-    <?php
-        function meierify($pflichtParameter, $optionalerParameter = 'f') {
-            if ($optionalerParameter == 'f') {
-                $anrede = 'Frau';
-            } else {
-                $anrede = 'Herr';
-            }
-
-            return $anrede . ' ' . $pflichtParameter . ' Meier';
+    function meierify($pflichtParameter, $optionalerParameter = 'f') {
+        if ($optionalerParameter == 'f') {
+            $anrede = 'Frau';
+        } else {
+            $anrede = 'Herr';
         }
 
-        echo meierify('Andrea');
-        echo '<br>';
-        echo meierify('Hugo', 'm');
-        echo '<br>';
-        echo meierify('Pascal');
-        echo '<br>';
+        return $anrede . ' ' . $pflichtParameter . ' Meier';
+    }
 
-        Ausgabe:
-        Frau Andrea Meier
-        Herr Hugo Meier
-        Frau Pascal Meier
+    echo meierify('Andrea');
+    echo '<br>';
+    echo meierify('Hugo', 'm');
+    echo '<br>';
+    echo meierify('Pascal');
+    echo '<br>';
+
+### Ausgabe
+    Frau Andrea Meier
+    Herr Hugo Meier
+    Frau Pascal Meier
 
 ## Beispiele MwSt. Rechner
 
-    <?php
-        function mwst($preis) {
-            $total = $preis * 1.077;
-            return $total;
-        }
+    function mwst($preis) {
+        $total = $preis * 1.077;
+        return $total;
+    }
 
-        $preis = 100;
-        $preisMitMwst = mwst($preis);
+    $preis = 100;
+    $preisMitMwst = mwst($preis);
 
-        echo "Der Preis ist: $preis (ohne Mwst) und $preisMitMwst (inkl. Mwst)";
+    echo "Der Preis ist: $preis (ohne Mwst) und $preisMitMwst (inkl. Mwst)";
 
 ## Beispiele MwSt. Rechner flexibel
 
-    <?php
-        function mwst($preis, $faktor = 1.077) {
-            $total = $preis * $faktor;
-            return $total;
-        }
+    function mwst($preis, $faktor = 1.077) {
+        $total = $preis * $faktor;
+        return $total;
+    }
 
-        $preis = 100;
-        $preisMitMwst = mwst($preis); // kein expliziter 2. Parameter
+    $preis = 100;
+    $preisMitMwst = mwst($preis); // kein expliziter 2. Parameter
 
-        $preisMitMwstDe = mwst($preis, 1.19); // 2. Parameter gesetzt, überschreibt Standardwert.
+    $preisMitMwstDe = mwst($preis, 1.19); // 2. Parameter gesetzt, überschreibt Standardwert.
 
-        echo "Der CH-Preis ist: $preis (ohne Mwst) und $preisMitMwst (inkl. Mwst)<br>";
-        echo "Der DE-Preis ist: $preis (ohne Mwst) und $preisMitMwstDe (inkl. Mwst)<br>";
+    echo "Der CH-Preis ist: $preis (ohne Mwst) und $preisMitMwst (inkl. Mwst)<br>";
+    echo "Der DE-Preis ist: $preis (ohne Mwst) und $preisMitMwstDe (inkl. Mwst)<br>";
 
 ## Return Early
 
@@ -1052,17 +1031,16 @@ Im untenstehenden Beispiel prüfen wir den Parameter, welcher der Funktion mitge
 
 Der Wert für `return` kann dabei auch weggelassen werden.
 
-    <?php
-        function whatEver($wert) {
-            if ($wert != 'floats your boat') {
-                return;
-            }
-
-            echo 'hierher kommt das programm nur, wenn "$wert = floats your boat" ist';
+    function whatEver($wert) {
+        if ($wert != 'floats your boat') {
+            return;
         }
 
-        echo whatEver('');
-        // gibt nichts aus
-        
-        echo whatEver('floats your boat'); 
-        // gibt hierher kommt das programm nur, wenn "$wert = floats your boat" ist
+        echo 'hierher kommt das programm nur, wenn "$wert = floats your boat" ist';
+    }
+
+    echo whatEver('');
+    // gibt nichts aus
+
+    echo whatEver('floats your boat');
+    // gibt hierher kommt das programm nur, wenn "$wert = floats your boat" ist
